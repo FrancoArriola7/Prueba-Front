@@ -1,0 +1,79 @@
+/* Estilos base (aplicados a todos los dispositivos) */
+.bingoCardContainer {
+    background-image: url('../assets/nameinput.png');
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.inputText {
+    background-color: #6a0dad;
+    color: white;
+    border: #6a0dad;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    width: 80%;
+    outline: none;
+}
+
+.inputText::placeholder {
+    color: white;
+    opacity: 1;
+}
+
+.buttonGenerate {
+    color: #6a0dad;
+    background-color: transparent;
+    border: 2px solid #6a0dad;
+    border-radius: 3px;
+    padding: 10px 20px;
+    font-size: 16px;
+    margin-top: 20px;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.buttonGenerate:hover {
+    background-color: #6a0dad;
+    color: white;
+}
+
+.error {
+    color: red;
+    margin-top: 10px;
+}
+
+/* Media Queries para manejar diferentes tamaños de pantalla */
+@media (max-width: 768px) { /* Tablets y teléfonos grandes */
+    .inputText, .buttonGenerate {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+
+    .buttonGenerate {
+        margin-top: 15px;
+    }
+}
+
+@media (max-width: 480px) { /* Teléfonos pequeños y medianos */
+    .bingoCardContainer {
+        padding: 15px;
+    }
+
+    .inputText, .buttonGenerate {
+        width: 90%; /* Más ancho en pantallas pequeñas */
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+
+    .buttonGenerate {
+        margin-top: 12px;
+    }
+}

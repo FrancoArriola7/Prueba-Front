@@ -1,0 +1,73 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.qr-container {
+  background-image: url('../../assets/Sprite-Graffiti.png');
+  background-size: cover; /* Escala la imagen para cubrir todo el contenedor */
+  background-position: center; /* Centra la imagen */
+  background-repeat: no-repeat; /* Evita que la imagen se repita */
+  height: 100vh; /* Cubre toda la altura de la ventana */
+  width: 100vw; /* Cubre todo el ancho de la ventana */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #fff; /* Color del texto */
+  box-sizing: border-box; /* Incluye el padding y borde en el cálculo del tamaño */
+  flex-direction: column; /* Asegura que el botón esté debajo de la tarjeta */
+  position: relative;
+}
+
+.qr-card {
+  background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco con transparencia */
+  border-radius: 15px;
+  padding: 5vh 3vw; /* Usar vh y vw para padding relativo al tamaño de la ventana */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 50vw; /* Máximo ancho relativo al viewport */
+  width: 100%;
+  text-align: center;
+  margin-bottom: 2vh; /* Margen inferior relativo al viewport */
+  transform: translateX(20vw); /* Desplaza hacia la derecha */
+}
+
+.qr-code {
+  transform: translateX(32vw) translateY(17vh); /* Mueve el código QR 20% del ancho de la ventana hacia la derecha */
+}
+
+.qr-button-container {
+  margin-top: 20vh;
+  display: flex;
+  justify-content: center;
+}
+
+.qr-button-image {
+  width: 200px; /* Ajusta el tamaño del botón según sea necesario */
+  cursor: pointer; /* Cambia el cursor al de una mano para indicar interactividad */
+  transition: transform 0.3s ease; /* Animación suave para el hover */
+  position: relative;
+  left: 32vw; /* Mueve la imagen 10% del ancho de la ventana hacia la derecha */
+  
+}
+
+.qr-button-image:hover {
+  transform: scale(1.1); /* Agranda ligeramente la imagen al pasar el cursor */
+}
+
+/* Media Query para pantallas más pequeñas */
+@media (max-width: 768px) {
+  .qr-card {
+    max-width: 80vw; /* Ajusta el ancho máximo para pantallas más pequeñas */
+    padding: 10px; /* Reduce el padding para pantallas más pequeñas */
+    transform: translateX(0); /* Centra el contenido en pantallas pequeñas */
+  }
+
+  .qr-button-container {
+    margin-top: 10px;
+  }
+}
