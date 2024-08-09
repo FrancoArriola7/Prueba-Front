@@ -57,7 +57,7 @@ const HomePage = () => {
 
   const handleReset = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/reset`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/reset/`, {
         method: 'POST', // Asume que el endpoint /reset acepta una solicitud POST
         headers: {
           'Content-Type': 'application/json',
