@@ -5,8 +5,7 @@ import './QRCodePage.css';
 import botonJugar from '../../assets/boton-jugar.png'; // Importa la imagen
 
 const QRCodePage = () => {
-    const localIP = '192.168.0.236'; // Reemplaza esto con tu dirección IP local
-    const qrValue = `http://${localIP}:8000/api/generate-bingo-card`;
+    const qrValue = 'https://prueba-front-chi.vercel.app/generate-bingo-card'; // URL de producción en Vercel
     const navigate = useNavigate();
 
     const handleGoHome = () => {
