@@ -6,6 +6,7 @@ const HomePage = () => {
   const { addSelectedMusical } = useContext(BingoContext);
   const [currentMusical, setCurrentMusical] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [resetMessage, setResetMessage] = useState('');
 
   useEffect(() => {
     const ws = new WebSocket('ws://127.0.0.1:8000/ws/game/');
@@ -54,6 +55,29 @@ const HomePage = () => {
     }
   };
 
+  const handleReset = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/reset`, {
+        method: 'POST', // Asume que el endpoint /reset acepta una solicitud POST
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        setResetMessage('Juego reiniciado correctamente.');
+      } else {
+        setResetMessage('Error al reiniciar el juego.');
+      }
+    } catch (error) {
+      console.error('Error al reiniciar el juego:', error);
+      setResetMessage('Error al reiniciar el juego.');
+    }
+
+    // Mostrar el mensaje por un corto período de tiempo
+    setTimeout(() => setResetMessage(''), 3000);
+  };
+
   useEffect(() => {
     if (showModal) {
       const timer = setTimeout(() => {
@@ -78,6 +102,10 @@ const HomePage = () => {
           </div>
         </div>
       )}
+      <button className="reset-button" onClick={handleReset}>
+        Reset
+      </button>
+      {resetMessage && <p className="reset-message">{resetMessage}</p>}
     </div>
   );
 };
