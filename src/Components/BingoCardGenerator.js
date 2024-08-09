@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './BingoCardGenerator.css';
 
@@ -20,8 +19,20 @@ const BingoCardGenerator = () => {
         }
 
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/cartons/generar/', { jugador: playerName });
-            navigate('/bingo-card-display', { state: response.data });
+            const response = await fetch('http://127.0.0.1:8000/api/cartons/generar/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ jugador: playerName }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Error al generar el cartón.');
+            }
+
+            const data = await response.json();
+            navigate('/bingo-card-display', { state: data });
         } catch (error) {
             console.error(error);
             setError('Error al generar el cartón. Por favor intente nuevamente.');
