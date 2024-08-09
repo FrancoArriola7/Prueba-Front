@@ -25,7 +25,7 @@ const HomePage = () => {
 
   const handleSelectOption = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/elegir_musical/', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/elegir_musical/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -39,7 +39,7 @@ const HomePage = () => {
         setShowModal(true);
 
         // Call the API to update the bingo cards
-        const response = await fetch('http://127.0.0.1:8000/api/actualizar_cartones/', {
+        await fetch(`${process.env.REACT_APP_API_URL}/actualizar_cartones/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
