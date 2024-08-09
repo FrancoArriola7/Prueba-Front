@@ -1,4 +1,3 @@
-// src/components/Pages/BingoCardDisplay.js
 import React, { useContext, useEffect, useState } from 'react';
 import { BingoContext } from '../../context/BingoContext';
 import { useLocation } from 'react-router-dom';
@@ -58,12 +57,12 @@ const BingoCardDisplay = () => {
   const location = useLocation();
   const { selectedMusicals } = useContext(BingoContext);
   const { jugador, combinacion } = location.state || {};
-  const musicalNames = combinacion.split(',');
+  const musicalNames = combinacion ? combinacion.split(',') : [];
 
   const [updatedMusicals, setUpdatedMusicals] = useState([]);
 
   useEffect(() => {
-    const ws = new WebSocket('ws://127.0.0.1:8000/ws/game/');
+    const ws = new WebSocket(process.env.REACT_APP_WS_URL);
 
     const handleWsMessage = (event) => {
       const data = JSON.parse(event.data);
@@ -74,6 +73,14 @@ const BingoCardDisplay = () => {
 
     ws.addEventListener('message', handleWsMessage);
 
+    ws.onerror = (error) => {
+      console.error('WebSocket error:', error);
+    };
+
+    ws.onclose = () => {
+      console.log('WebSocket connection closed');
+    };
+
     return () => {
       ws.removeEventListener('message', handleWsMessage);
       ws.close();
@@ -83,7 +90,7 @@ const BingoCardDisplay = () => {
   return (
     <BingoCardDisplayContainer>
       <UserName variant="h4" component="h2">
-        {jugador.toUpperCase()}
+        {jugador ? jugador.toUpperCase() : 'Jugador'}
       </UserName>
       <Grid container justifyContent="center" alignItems="center" spacing={0}>
         {musicalNames.map((musical, index) => (
