@@ -181,6 +181,19 @@ html, body {
   animation: scaleUp 0.5s forwards;
 }
 
+.reset-button {
+  background: none;
+  border: none;
+  color: black;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 10px 0;
+}
+
+.reset-button:hover {
+  text-decoration: underline;
+}
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
