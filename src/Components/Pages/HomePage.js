@@ -9,7 +9,7 @@ const HomePage = () => {
   const [resetMessage, setResetMessage] = useState('');
 
   useEffect(() => {
-    const ws = new WebSocket('ws://127.0.0.1:8000/ws/game/');
+    const ws = new WebSocket(process.env.REACT_APP_WS_URL);
 
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
@@ -19,6 +19,14 @@ const HomePage = () => {
         setShowModal(true);
         setTimeout(() => setShowModal(false), 5000);
       }
+    };
+
+    ws.onerror = (error) => {
+      console.error('WebSocket error:', error);
+    };
+
+    ws.onclose = () => {
+      console.log('WebSocket connection closed');
     };
 
     return () => ws.close();
@@ -58,7 +66,7 @@ const HomePage = () => {
   const handleReset = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/reset/`, {
-        method: 'POST', // Asume que el endpoint /reset acepta una solicitud POST
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
