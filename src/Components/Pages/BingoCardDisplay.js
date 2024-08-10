@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { BingoContext } from '../../context/BingoContext';
 import { useLocation } from 'react-router-dom';
 import { Typography, Grid } from '@mui/material';
-import { styled } from '@mui/system';
+import { styled, keyframes } from '@mui/system';
 import backgroundImage1 from '../../assets/Carton.png';
 
 const BingoSquare = styled('div')(({ highlighted }) => ({
@@ -26,7 +26,27 @@ const BingoSquare = styled('div')(({ highlighted }) => ({
   },
 }));
 
-const BingoCardDisplayContainer = styled('div')(() => ({
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const BingoMessage = styled('div')`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 5rem;
+  color: black;
+  animation: ${fadeIn} 2s ease-in-out forwards;
+  z-index: 20;
+`;
+
+const BingoCardDisplayContainer = styled('div')(({ diffuse }) => ({
   backgroundImage: `url(${backgroundImage1})`,
   backgroundSize: 'cover',
   backgroundPosition: 'center',
@@ -41,6 +61,17 @@ const BingoCardDisplayContainer = styled('div')(() => ({
   margin: 0,
   boxSizing: 'border-box',
   position: 'relative',
+  '&::after': diffuse ? {
+    content: '""',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: 'rgba(255, 255, 255, 0.8)',
+    zIndex: 10,
+    backdropFilter: 'blur(4px)',
+  } : {}
 }));
 
 const UserName = styled(Typography)(() => ({
@@ -51,6 +82,7 @@ const UserName = styled(Typography)(() => ({
   width: '100%',
   marginTop: 0,
   fontWeight: 'bold',
+  zIndex: 15,
 }));
 
 const BingoCardDisplay = () => {
@@ -60,6 +92,7 @@ const BingoCardDisplay = () => {
   const musicalNames = combinacion ? combinacion.split(',') : [];
 
   const [updatedMusicals, setUpdatedMusicals] = useState([]);
+  const [bingo, setBingo] = useState(false);
 
   useEffect(() => {
     const ws = new WebSocket(process.env.REACT_APP_WS_URL);
@@ -87,8 +120,15 @@ const BingoCardDisplay = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (musicalNames.every((musical) => selectedMusicals.includes(musical) || updatedMusicals.includes(musical))) {
+      setBingo(true);
+    }
+  }, [selectedMusicals, updatedMusicals, musicalNames]);
+
   return (
-    <BingoCardDisplayContainer>
+    <BingoCardDisplayContainer diffuse={bingo}>
+      {bingo && <BingoMessage>BINGO!</BingoMessage>}
       <UserName variant="h4" component="h2">
         {jugador ? jugador.toUpperCase() : 'Jugador'}
       </UserName>
